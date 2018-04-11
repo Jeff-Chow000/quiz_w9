@@ -63,8 +63,8 @@ global_step = tf.Variable(0, trainable=False, name='global_step', dtype=tf.int64
 
 
 # Define the model that we want to use -- specify to use only two classes at the last layer
-with slim.arg_scope(vgg.vg_arg_scope()):
-    logits, end_points = vggg.vgg_16(image_tensor,
+with slim.arg_scope(vgg.vgg_arg_scope()):
+    logits, end_points = vgg.vgg_16(image_tensor,
                                     num_classes=number_of_classes,
                                     is_training=is_training_placeholder,
                                     spatial_squeeze=False,
@@ -83,16 +83,16 @@ upsampled_logits_shape = tf.stack([
                                   downsampled_logits_shape[3]
                                   ])
 
-pool3_feature = end_point['vgg_16/pool3']
+pool3_feature = end_points['vgg_16/pool3']
 pool4_feature = end_points['vgg_16/pool4']
 pool5_feature = logits
 
 with tf.variable_scope('fcn'):
-    # Vgg16 pool5 output convolutes with kernel [1,1] in depth of number_of_classes
+# Vgg16 pool5 output convolutes with kernel [1,1] in depth of number_of_classes
     pool4_predict_logits = slim.conv2d(pool4_feature, number_of_classes, [1, 1],
-                                 activation_fn=None,
-                                 weights_initializer=tf.zeros_initializer,
-                                 scope='conv_pool4')
+                                          activation_fn=None,
+                                          weights_initializer=tf.zeros_initializer,
+                                          scope='conv_pool4')
 
     # Perform the 2 upsampling of vgg16 pool5 
     upsample_factor = 2
@@ -137,14 +137,13 @@ with tf.variable_scope('fcn'):
 
     cross_entropy_loss = tf.reduce_mean(tf.reduce_sum(cross_entropies, axis=-1))
 
-
 # Tensor to get the final prediction for each pixel -- pay
 # attention that we don't need softmax in this case because
 # we only need the final decision. If we also need the respective
 # probabilities we will have to apply softmax.
-   pred = tf.argmax(upsampled_logits, axis=3)
+    pred = tf.argmax(upsampled_logits, axis=3)
 
-   probabilities = tf.nn.softmax(upsampled_logits)
+    probabilities = tf.nn.softmax(upsampled_logits)
 
 # Here we define an optimizer and put all the variables
 # that will be created under a namespace of 'adam_vars'.
