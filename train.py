@@ -180,12 +180,12 @@ with tf.variable_scope("adam_vars"):
 # which is responsible for class predictions. We do this because
 # we will have different number of classes to predict and we can't
 # use the old ones as an initialization.
-vgg_except_fc8_weights = slim.get_variables_to_restore(exclude=['vgg_16/fc8', 'adam_vars'])
+vgg_except_fc8_weights = slim.get_variables_to_restore(exclude=['fcn', 'adam_vars'])
 
 # Here we get variables that belong to the last layer of network.
 # As we saw, the number of classes that VGG was originally trained on
 # is different from ours -- in our case it is only 2 classes.
-vgg_fc8_weights = slim.get_variables_to_restore(include=['vgg_16/fc8'])
+vgg_fc8_weights = slim.get_variables_to_restore(include=['fcn'])
 
 adam_optimizer_variables = slim.get_variables_to_restore(include=['adam_vars'])
 
