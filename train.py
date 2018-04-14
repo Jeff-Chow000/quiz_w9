@@ -89,6 +89,11 @@ pool5_feature = end_points['vgg_16/pool5']
 
 with tf.variable_scope('fcn'):
 # Vgg16 pool5 output convolutes with kernel [1,1] in depth of number_of_classes
+    pool5_predict_logits = slim.conv2d(pool5_feature, number_of_classes, [1, 1],
+                                          activation_fn=None,
+                                          weights_initializer=tf.zeros_initializer,
+                                          scope='conv_pool5')
+
     pool4_predict_logits = slim.conv2d(pool4_feature, number_of_classes, [1, 1],
                                           activation_fn=None,
                                           weights_initializer=tf.zeros_initializer,
