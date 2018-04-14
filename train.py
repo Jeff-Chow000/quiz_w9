@@ -124,7 +124,7 @@ with tf.variable_scope('fcn'):
 
     upsample_factor = 8
     upsample_filter_np_x8 = bilinear_upsample_weights(upsample_factor, number_of_classes)
-    upsample_filter_tensor_x8 = tf.Variable(upsample_filter_np_x2, name='pool3/t_conv_x8')
+    upsample_filter_tensor_x8 = tf.Variable(upsample_filter_np_x８, name='pool3/t_conv_x8')
     
     upsampled_logits = tf.nn.conv2d_transpose(upsampled_logits, upsample_filter_tensor_x8,
                                           output_shape=upsampled_logits_shape,
