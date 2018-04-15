@@ -85,15 +85,10 @@ upsampled_logits_shape = tf.stack([
 
 pool3_feature = end_points['vgg_16/pool3']
 pool4_feature = end_points['vgg_16/pool4']
-pool5_feature = end_points['vgg_16/conv5']
+pool5_feature = logits
 
 with tf.variable_scope('fcn'):
 # Vgg16 pool5 output convolutes with kernel [1,1] in depth of number_of_classes
-    pool5_predict_logits = slim.conv2d(pool5_feature, number_of_classes, [1, 1],
-                                          activation_fn=None,
-                                          weights_initializer=tf.zeros_initializer,
-                                          scope='conv_pool5')
-
     pool4_predict_logits = slim.conv2d(pool4_feature, number_of_classes, [1, 1],
                                           activation_fn=None,
                                           weights_initializer=tf.zeros_initializer,
@@ -104,7 +99,7 @@ with tf.variable_scope('fcn'):
     upsample_filter_np_x2 = bilinear_upsample_weights(upsample_factor, number_of_classes)
     upsample_filter_tensor_x2 = tf.Variable(upsample_filter_np_x2, name='pool5/t_conv_x2')
 
-    upsampled_logits = tf.nn.conv2d_transpose(pool5_predict_logits, upsample_filter_tensor_x2,
+    upsampled_logits = tf.nn.conv2d_transpose(pool5_feature, upsample_filter_tensor_x2,
                                           output_shape=tf.shape(pool4_predict_logits),
                                           strides=[1, upsample_factor, upsample_factor, 1],
                                           padding='SAME')
