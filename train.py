@@ -179,8 +179,8 @@ with tf.variable_scope("adam_vars"):
 # into our variables when we call it. We exclude the weights from the last layer
 # which is responsible for class predictions. We do this because
 # we will have different number of classes to predict and we can't
-# use the old ones as an initialization.
-vgg_except_fc8_weights = slim.get_variables_to_restore(exclude=['fcn', 'adam_vars'])
+# use the old ones as an initialization
+vgg_except_fc8_weights = slim.get_variables_to_restore(exclude=['fcn', 'vgg_16/fc8', 'adam_vars'])
 
 # Here we get variables that belong to the last layer of network.
 # As we saw, the number of classes that VGG was originally trained on
