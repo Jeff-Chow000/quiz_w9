@@ -85,7 +85,7 @@ upsampled_logits_shape = tf.stack([
 
 pool3_feature = end_points['vgg_16/pool3']
 pool4_feature = end_points['vgg_16/pool4']
-pool5_feature = end_points['vgg_16/pool5']
+pool5_feature = end_points['vgg_16/conv5']
 
 with tf.variable_scope('fcn'):
 # Vgg16 pool5 output convolutes with kernel [1,1] in depth of number_of_classes
