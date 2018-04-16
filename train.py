@@ -82,7 +82,7 @@ upsampled_logits_shape = tf.stack([
                                   img_shape[2],
                                   downsampled_logits_shape[3]
                                   ])
-
+print('aaaaaaa')
 pool3_feature = end_points['vgg_16/pool3']
 pool4_feature = end_points['vgg_16/pool4']
 pool5_feature = end_points['vgg_16/pool5']
