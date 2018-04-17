@@ -82,10 +82,11 @@ upsampled_logits_shape = tf.stack([
                                   img_shape[2],
                                   downsampled_logits_shape[3]
                                   ])
-print('aaaaaaa')
+
 pool3_feature = end_points['vgg_16/pool3']
 pool4_feature = end_points['vgg_16/pool4']
 pool5_feature = end_points['vgg_16/pool5']
+print('aaaaaaa')
 
 with tf.variable_scope('fcn'):
 # Vgg16 pool5 output convolutes with kernel [1,1] in depth of number_of_classes
